@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.2">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.3.2">
     
     
       
@@ -529,6 +529,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../add-ons/apache-airflow/" class="md-nav__link">
+        Apache Airflow add-on
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../add-ons/argocd/" class="md-nav__link">
         ArgoCD
       </a>
@@ -641,8 +655,64 @@
   
   
     <li class="md-nav__item">
+      <a href="../add-ons/calico/" class="md-nav__link">
+        Calico
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add-ons/cert-manager-csi-driver/" class="md-nav__link">
+        cert-manager-csi-driver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../add-ons/cert-manager/" class="md-nav__link">
         cert-manager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add-ons/chaos-mesh/" class="md-nav__link">
+        Chaos Mesh
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add-ons/cilium/" class="md-nav__link">
+        Cilium
       </a>
     </li>
   
@@ -753,6 +823,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../add-ons/gatekeeper/" class="md-nav__link">
+        Gatekeeper
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../add-ons/grafana/" class="md-nav__link">
         Grafana
       </a>
@@ -823,8 +907,64 @@
   
   
     <li class="md-nav__item">
+      <a href="../add-ons/kubecost/" class="md-nav__link">
+        Kubecost
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add-ons/kuberay-operator/" class="md-nav__link">
+        KubeRay Operator
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../add-ons/kubernetes-dashboard/" class="md-nav__link">
         Kubernetes Dashboard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add-ons/kyverno/" class="md-nav__link">
+        Kyverno
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add-ons/local-volume-provisioner/" class="md-nav__link">
+        Local volume provisioner
       </a>
     </li>
   
@@ -879,6 +1019,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../add-ons/nvidia-device-plugin/" class="md-nav__link">
+        NVIDIA Device Plugin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add-ons/portworx/" class="md-nav__link">
+        Portworx add-on for EKS Blueprints
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../add-ons/prometheus/" class="md-nav__link">
         Prometheus
       </a>
@@ -893,8 +1061,36 @@
   
   
     <li class="md-nav__item">
+      <a href="../add-ons/promtail/" class="md-nav__link">
+        Promtail
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../add-ons/secrets-store-csi-driver/" class="md-nav__link">
         secrets-store-csi-driver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add-ons/smb-csi-driver/" class="md-nav__link">
+        SMB CSI Driver Helm Chart
       </a>
     </li>
   
@@ -1738,6 +1934,10 @@ The authenticator gets its configuration information from the <code>aws-auth</co
     ]
   }
 </code></pre></div>
+<p><em>NOTE</em>:</p>
+<ul>
+<li>You should not set to true both <code>create_launch_template</code> and <code>remote_access</code> or you'll end-up with new managed nodegroups that won't be able to join the cluster.</li>
+</ul>
 <h2 id="self-managed-node-groups">Self-managed Node Groups<a class="headerlink" href="#self-managed-node-groups" title="Permanent link">&para;</a></h2>
 <p>The below example demonstrates the minimum configuration required to deploy a Self-managed node group.</p>
 <div class="highlight"><pre><span></span><code>    # EKS SELF MANAGED NODE GROUPS

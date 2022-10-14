@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.2">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.3.2">
     
     
       
@@ -434,6 +434,20 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../apache-airflow/" class="md-nav__link">
+        Apache Airflow add-on
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -637,8 +651,64 @@
   
   
     <li class="md-nav__item">
+      <a href="../calico/" class="md-nav__link">
+        Calico
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cert-manager-csi-driver/" class="md-nav__link">
+        cert-manager-csi-driver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../cert-manager/" class="md-nav__link">
         cert-manager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chaos-mesh/" class="md-nav__link">
+        Chaos Mesh
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cilium/" class="md-nav__link">
+        Cilium
       </a>
     </li>
   
@@ -749,6 +819,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../gatekeeper/" class="md-nav__link">
+        Gatekeeper
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../grafana/" class="md-nav__link">
         Grafana
       </a>
@@ -819,8 +903,64 @@
   
   
     <li class="md-nav__item">
+      <a href="../kubecost/" class="md-nav__link">
+        Kubecost
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kuberay-operator/" class="md-nav__link">
+        KubeRay Operator
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../kubernetes-dashboard/" class="md-nav__link">
         Kubernetes Dashboard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kyverno/" class="md-nav__link">
+        Kyverno
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../local-volume-provisioner/" class="md-nav__link">
+        Local volume provisioner
       </a>
     </li>
   
@@ -875,6 +1015,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../nvidia-device-plugin/" class="md-nav__link">
+        NVIDIA Device Plugin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../portworx/" class="md-nav__link">
+        Portworx add-on for EKS Blueprints
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../prometheus/" class="md-nav__link">
         Prometheus
       </a>
@@ -889,8 +1057,36 @@
   
   
     <li class="md-nav__item">
+      <a href="../promtail/" class="md-nav__link">
+        Promtail
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../secrets-store-csi-driver/" class="md-nav__link">
         secrets-store-csi-driver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../smb-csi-driver/" class="md-nav__link">
+        SMB CSI Driver Helm Chart
       </a>
     </li>
   
@@ -1256,9 +1452,6 @@
 </code></pre></div>
 <h3 id="admin-password">Admin Password<a class="headerlink" href="#admin-password" title="Permanent link">&para;</a></h3>
 <p>ArgoCD has a built-in <code>admin</code> user that has full access to the ArgoCD instance. By default, Argo will create a password for the admin user.</p>
-<p>You can optionally provide a custom password for the admin user by specifying the name of an AWS Secrets Manager secret. The value for the secret should be a <a href="https://github.com/argoproj/argo-helm/blob/master/charts/argo-cd/values.yaml#L1785">bcrypt hash</a> of your admin password. The hashed value will be stored as a Kubernetes Secret and will be used to configure the admin password for Argo.</p>
-<div class="highlight"><pre><span></span><code>argocd_admin_password_secret_name = &lt;secret_name&gt;
-</code></pre></div>
 <p>See the <a href="https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/">ArgoCD documentation</a> for additional details on managing users.</p>
 <h3 id="customizing-the-helm-chart">Customizing the Helm Chart<a class="headerlink" href="#customizing-the-helm-chart" title="Permanent link">&para;</a></h3>
 <p>You can customize the Helm chart that deploys <code>ArgoCD</code> via the following configuration:</p>
@@ -1324,7 +1517,6 @@ argocd_applications     = {
 <p>The following demonstrates a complete example for configuring ArgoCD.</p>
 <div class="highlight"><pre><span></span><code>enable_argocd                       = true
 argocd_manage_add_ons               = true
-argocd_admin_password_secret_name   = &lt;secret_name&gt;
 
 argocd_helm_config = {
   name             = &quot;argo-cd&quot;
@@ -1380,7 +1572,7 @@ argocd_applications = {
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../agones/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Agones" rel="prev">
+        <a href="../apache-airflow/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Apache Airflow add-on" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -1389,7 +1581,7 @@ argocd_applications = {
               <span class="md-footer__direction">
                 Previous
               </span>
-              Agones
+              Apache Airflow add-on
             </div>
           </div>
         </a>
