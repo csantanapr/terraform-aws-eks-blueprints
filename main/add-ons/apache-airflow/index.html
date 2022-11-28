@@ -253,22 +253,37 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../../node-groups/" class="md-nav__link">
+        Node Groups
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
     
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_4">
+        <label class="md-nav__link" for="__nav_5">
           IAM
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="IAM" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
+        <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
           IAM
         </label>
@@ -320,18 +335,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_6">
+        <label class="md-nav__link" for="__nav_7">
           Modules
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Modules" data-md-level="1">
-        <label class="md-nav__title" for="__nav_6">
+        <label class="md-nav__title" for="__nav_7">
           <span class="md-nav__icon md-icon"></span>
           Modules
         </label>
@@ -370,18 +385,18 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" checked>
       
       
       
       
-        <label class="md-nav__link" for="__nav_7">
+        <label class="md-nav__link" for="__nav_8">
           Add-ons
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Add-ons" data-md-level="1">
-        <label class="md-nav__title" for="__nav_7">
+        <label class="md-nav__title" for="__nav_8">
           <span class="md-nav__icon md-icon"></span>
           Add-ons
         </label>
@@ -1291,18 +1306,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_8">
+        <label class="md-nav__link" for="__nav_9">
           Advanced
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Advanced" data-md-level="1">
-        <label class="md-nav__title" for="__nav_8">
+        <label class="md-nav__title" for="__nav_9">
           <span class="md-nav__icon md-icon"></span>
           Advanced
         </label>
@@ -1542,7 +1557,7 @@
 
 <h1 id="apache-airflow-add-on">Apache Airflow add-on<a class="headerlink" href="#apache-airflow-add-on" title="Permanent link">&para;</a></h1>
 <p>This document describes the details of the best practices for building and deploying Self-managed <strong>Highly Scalable Apache Airflow cluster on Kubernetes(Amazon EKS) Cluster</strong>.
-Alternatively, Amazon also provides a fully managed Apache Airflow service(MWAA). Please see this <a href="https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/main/examples/managed-workflow-apache-airflow">example</a> if you are looking to build Amazon MWAA.</p>
+Alternatively, Amazon also provides a fully managed Apache Airflow service(MWAA). Please see this <a href="https://awslabs.github.io/data-on-eks/docs/job-schedulers-eks/aws-managed-airflow">example</a> if you are looking to build Amazon MWAA.</p>
 <p>Apache Airflow is used for the scheduling and orchestration of data pipelines or workflows.
 Orchestration of data pipelines refers to the sequencing, coordination, scheduling, and managing complex data pipelines from diverse sources.
 A workflow is represented as a <a href="https://airflow.apache.org/docs/apache-airflow/stable/concepts/dags.html">DAG</a> (a Directed Acyclic Graph), and contains individual pieces of work called <a href="https://airflow.apache.org/docs/apache-airflow/stable/concepts/tasks.html">Tasks</a>, arranged with dependencies and data flows taken into account.</p>
@@ -1589,12 +1604,12 @@ Ths deployment uses <em>HA scheduler</em> with two replicas to take advantage of
 <p>This deployment example uses internet facing Load Balancer to easily access the WebUI however it's not recommended for Production.
 You can modify the <code>values.yaml</code> to set the Load Balancer to <code>internal</code> and upload certificate to use HTTPS.
 Ensure access to the WebUI using internal domain and network.</p>
-<p>Checkout the <a href="https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/main/examples/analytics/airflow-on-eks">examples</a> of deploying and using Apache Airflow on Amazon EKS.</p>
+<p>Checkout the <a href="https://awslabs.github.io/data-on-eks/docs/job-schedulers-eks/self-managed-airflow">examples</a> of deploying and using Apache Airflow on Amazon EKS.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<p>The <a href="https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/main/examples/analytics/airflow-on-eks">Apache Airflow</a> can be deployed by enabling the add-on via the following.</p>
+<p>The <a href="https://awslabs.github.io/data-on-eks/docs/job-schedulers-eks/self-managed-airflow">Apache Airflow</a> can be deployed by enabling the add-on via the following.</p>
 <div class="highlight"><pre><span></span><code>  enable_airflow = true
 </code></pre></div>
-<p>For production workloads, you can use this <a href="https://github.com/aws-ia/terraform-aws-eks-blueprints/tree/main/examples/analytics/airflow-on-eks">example</a> with custom Helm Config.</p>
+<p>For production workloads, you can use this <a href="https://awslabs.github.io/data-on-eks/docs/job-schedulers-eks/self-managed-airflow">example</a> with custom Helm Config.</p>
 <div class="highlight"><pre><span></span><code>    enable_airflow = true
     airflow_helm_config = {
       name             = &quot;airflow&quot;
