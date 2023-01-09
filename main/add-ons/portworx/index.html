@@ -688,6 +688,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../consul/" class="md-nav__link">
+        Consul
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../crossplane/" class="md-nav__link">
         Crossplane
       </a>
@@ -1183,6 +1197,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../thanos/" class="md-nav__link">
+        Thanos
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../traefik/" class="md-nav__link">
         Traefik
       </a>
@@ -1517,7 +1545,7 @@
 <ol>
 <li>Run <code>terraform apply</code> command for the policy (replace it with your resource name):</li>
 </ol>
-<p><div class="highlight"><pre><span></span><code>terraform apply -target<span class="o">=</span><span class="s2">&quot;aws_iam_policy.&lt;policy-resource-name&gt;&quot;</span>
+<p><div class="highlight"><pre><span></span><code>terraform<span class="w"> </span>apply<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;aws_iam_policy.&lt;policy-resource-name&gt;&quot;</span>
 </code></pre></div>
 3. Attach the newly created AWS policy ARN to the node groups in your cluster:</p>
 <p><div class="highlight"><pre><span></span><code> managed_node_groups = {
@@ -1535,7 +1563,7 @@
   }
 </code></pre></div>
 4. Run the command below to apply the changes. (This step can be performed even if the cluster is up and running. The policy attachment happens without having to restart the nodes)
-<div class="highlight"><pre><span></span><code>terraform apply -target<span class="o">=</span><span class="s2">&quot;module.eks_blueprints&quot;</span>
+<div class="highlight"><pre><span></span><code>terraform<span class="w"> </span>apply<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks_blueprints&quot;</span>
 </code></pre></div></p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
 <p>After completing the requirement step, installing Portworx is simple, set <code>enable_portworx</code> variable to true inside the Kubernetes add-on module.</p>

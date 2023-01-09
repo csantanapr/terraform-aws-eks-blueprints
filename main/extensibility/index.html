@@ -686,6 +686,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../add-ons/consul/" class="md-nav__link">
+        Consul
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../add-ons/crossplane/" class="md-nav__link">
         Crossplane
       </a>
@@ -1094,6 +1108,20 @@
     <li class="md-nav__item">
       <a href="../add-ons/tetrate-istio/" class="md-nav__link">
         Tetrate Istio Distro
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add-ons/thanos/" class="md-nav__link">
+        Thanos
       </a>
     </li>
   
@@ -1729,46 +1757,46 @@ data &quot;aws_iam_policy_document&quot; &quot;cni_metrics&quot; {
 <h3 id="add-on-code">Add-On Code<a class="headerlink" href="#add-on-code" title="Permanent link">&para;</a></h3>
 <p>We recommend your add-on code follow Terraform standards for best practices for organizing your code, such as..</p>
 <div class="highlight"><pre><span></span><code>.
-├── CODE_OF_CONDUCT.md
-├── CONTRIBUTING.md
-├── LICENSE
-├── README.md
-├── blueprints
-│   ├── README.md
-│   ├── addons
-│   │   ├── README.md
-│   │   ├── addons.tfbackend
-│   │   ├── backend.tf
-│   │   ├── data.tf
-│   │   ├── main.tf
-│   │   ├── providers.tf
-│   │   └── variables.tf
-│   ├── eks
-│   │   ├── README.md
-│   │   ├── backend.tf
-│   │   ├── data.tf
-│   │   ├── eks.tfbackend
-│   │   ├── main.tf
-│   │   ├── outputs.tf
-│   │   ├── providers.tf
-│   │   └── variables.tf
-│   ├── vars
-│   │   └── config.tfvars
-│   └── vpc
-│       ├── README.md
-│       ├── backend.tf
-│       ├── data.tf
-│       ├── locals.tf
-│       ├── main.tf
-│       ├── outputs.tf
-│       ├── providers.tf
-│       ├── variables.tf
-│       └── vpc.tfbackend
-├── locals.tf
-├── main.tf
-├── outputs.tf
-├── values.yaml
-└── variables.tf
+├──<span class="w"> </span>CODE_OF_CONDUCT.md
+├──<span class="w"> </span>CONTRIBUTING.md
+├──<span class="w"> </span>LICENSE
+├──<span class="w"> </span>README.md
+├──<span class="w"> </span>blueprints
+│<span class="w">   </span>├──<span class="w"> </span>README.md
+│<span class="w">   </span>├──<span class="w"> </span>addons
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>README.md
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>addons.tfbackend
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>backend.tf
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>data.tf
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>main.tf
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>providers.tf
+│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>variables.tf
+│<span class="w">   </span>├──<span class="w"> </span>eks
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>README.md
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>backend.tf
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>data.tf
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>eks.tfbackend
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>main.tf
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>outputs.tf
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>providers.tf
+│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>variables.tf
+│<span class="w">   </span>├──<span class="w"> </span>vars
+│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>config.tfvars
+│<span class="w">   </span>└──<span class="w"> </span>vpc
+│<span class="w">       </span>├──<span class="w"> </span>README.md
+│<span class="w">       </span>├──<span class="w"> </span>backend.tf
+│<span class="w">       </span>├──<span class="w"> </span>data.tf
+│<span class="w">       </span>├──<span class="w"> </span>locals.tf
+│<span class="w">       </span>├──<span class="w"> </span>main.tf
+│<span class="w">       </span>├──<span class="w"> </span>outputs.tf
+│<span class="w">       </span>├──<span class="w"> </span>providers.tf
+│<span class="w">       </span>├──<span class="w"> </span>variables.tf
+│<span class="w">       </span>└──<span class="w"> </span>vpc.tfbackend
+├──<span class="w"> </span>locals.tf
+├──<span class="w"> </span>main.tf
+├──<span class="w"> </span>outputs.tf
+├──<span class="w"> </span>values.yaml
+└──<span class="w"> </span>variables.tf
 </code></pre></div>
 <p>In the above code tree,</p>
 <ul>
