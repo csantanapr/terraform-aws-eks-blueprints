@@ -86,12 +86,12 @@ locals {
   }) : ""
 
   # Keycloak and AMG Config
-  enable_keycloak = var.enable_ingress && length(var.domain_name) > 0
-  keycloak_subdomain = "keycloak"
+  enable_keycloak                  = var.enable_ingress && length(var.domain_name) > 0
+  keycloak_subdomain               = "keycloak"
   keycloak_admin_password_key_name = "keycloak"
-  keycloak_admin_username = "admin"
-  keycloak_ingress_ready = "300s"
-  enable_amg = local.enable_keycloak
+  keycloak_admin_username          = "admin"
+  keycloak_ingress_ready           = "300s"
+  enable_amg                       = local.enable_keycloak
 
 }
 
@@ -189,7 +189,7 @@ module "eks_blueprints_kubernetes_addons" {
   enable_external_dns                 = var.enable_ingress ? true : false # ArgoCD Server and UI use valid https domain name
   external_dns_helm_config = {
     domainFilters : [var.domain_name]
-    policy: "sync" # Allows to delete DNS records
+    policy : "sync" # Allows to delete DNS records
   }
   external_dns_route53_zone_arns = [local.argocd_domain_arn] # ArgoCD Server and UI domain name is registered in Route 53
 
@@ -261,7 +261,7 @@ module "eks_blueprints_argocd_workloads" {
       add_on_application = false
       path               = "application-sets"
       repo_url           = "https://github.com/csantanapr/eks-blueprints-workloads.git" #TODO to aws-samples github org
-      target_revision    = "argo-multi-cluster" #TODO change to main
+      target_revision    = "argo-multi-cluster"                                         #TODO change to main
       #repo_url             = "git@github.com:aws-samples/eks-blueprints-workloads.git"
       #ssh_key_secret_name  = "github-ssh-key"# Needed for private repos
       #git_secret_namespace = "argocd"
@@ -403,10 +403,10 @@ resource "grafana_data_source" "prometheus" {
   url        = module.managed_prometheus.workspace_prometheus_endpoint
 
   json_data_encoded = jsonencode({
-    httpMethod     = "POST"
-    sigV4Auth      = true
-    sigV4AuthType  = "ec2_iam_role"
-    sigV4Region    = var.region
+    httpMethod    = "POST"
+    sigV4Auth     = true
+    sigV4AuthType = "ec2_iam_role"
+    sigV4Region   = var.region
   })
 
 }
@@ -418,7 +418,7 @@ resource "grafana_dashboard" "argocd" {
 }
 
 module "managed_grafana" {
-  source = "terraform-aws-modules/managed-service-grafana/aws"
+  source  = "terraform-aws-modules/managed-service-grafana/aws"
   version = "~> 1.9"
 
   create = local.enable_amg

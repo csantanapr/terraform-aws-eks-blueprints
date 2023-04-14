@@ -39,3 +39,8 @@ variable "hub_profile" {
   type        = string
   default     = "default"
 }
+variable create_vpc {}
+variable existing_vpc_id {}
+variable existing_vpc_private_subnets {}
+variable enable_existing_eks_managed_node_groups {}
+variable existing_eks_managed_node_groups {}

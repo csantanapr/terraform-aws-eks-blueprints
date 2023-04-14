@@ -164,8 +164,8 @@ module "eks" {
     }
   }
 
-  vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.private_subnets
+  vpc_id     = try(var.existing_vpc_id, module.vpc.vpc_id)
+  subnet_ids = try(var.existing_vpc_private_subnets, module.vpc.private_subnets)
 
 
   # Team Access
@@ -180,7 +180,7 @@ module "eks" {
     [for team in module.app_teams : team.aws_auth_configmap_role],
   ])
 
-  eks_managed_node_groups = {
+  eks_managed_node_groups = try(var.enable_existing_eks_managed_node_groups, false) ? var.existing_eks_managed_node_groups : {
     initial = {
       instance_types = [local.instance_type]
 
@@ -639,6 +639,7 @@ module "eks_blueprints_argocd_team_workloads" {
 ################################################################################
 
 module "vpc" {
+  create_vpc = try(var.create_vpc, true)
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 3.0"
 
