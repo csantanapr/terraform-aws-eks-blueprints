@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.3.2">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-8.3.2">
     
     
       
@@ -253,37 +253,22 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../node-groups/" class="md-nav__link">
-        Node Groups
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
     
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_5">
+        <label class="md-nav__link" for="__nav_4">
           IAM
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="IAM" data-md-level="1">
-        <label class="md-nav__title" for="__nav_5">
+        <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           IAM
         </label>
@@ -335,18 +320,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_7">
+        <label class="md-nav__link" for="__nav_6">
           Modules
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Modules" data-md-level="1">
-        <label class="md-nav__title" for="__nav_7">
+        <label class="md-nav__title" for="__nav_6">
           <span class="md-nav__icon md-icon"></span>
           Modules
         </label>
@@ -385,18 +370,18 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
       
       
       
       
-        <label class="md-nav__link" for="__nav_8">
+        <label class="md-nav__link" for="__nav_7">
           Add-ons
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Add-ons" data-md-level="1">
-        <label class="md-nav__title" for="__nav_8">
+        <label class="md-nav__title" for="__nav_7">
           <span class="md-nav__icon md-icon"></span>
           Add-ons
         </label>
@@ -758,6 +743,20 @@
     <li class="md-nav__item">
       <a href="../crossplane/" class="md-nav__link">
         Crossplane
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crowdstrike-falcon/" class="md-nav__link">
+        CrowdStrike Falcon
       </a>
     </li>
   
@@ -1271,18 +1270,18 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_9">
+        <label class="md-nav__link" for="__nav_8">
           Advanced
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Advanced" data-md-level="1">
-        <label class="md-nav__title" for="__nav_9">
+        <label class="md-nav__title" for="__nav_8">
           <span class="md-nav__icon md-icon"></span>
           Advanced
         </label>
@@ -1462,25 +1461,25 @@
 <p>For complete project documentation, please visit the <a href="https://agones.dev/site/docs/">Agones documentation site</a>.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
 <p>Agones can be deployed by enabling the add-on via the following.</p>
-<div class="highlight"><pre><span></span><code>enable_agones = true
+<div class="highlight"><pre><span></span><code><span class="na">enable_agones</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 </code></pre></div>
 <p>You can optionally customize the Helm chart that deploys <code>Agones</code> via the following configuration.</p>
 <p><em>NOTE: Agones requires a Node group in Public Subnets and enable Public IP</em></p>
-<div class="highlight"><pre><span></span><code>  enable_agones = true
-  # Optional  agones_helm_config
-  agones_helm_config = {
-    name                       = &quot;agones&quot;
-    chart                      = &quot;agones&quot;
-    repository                 = &quot;https://agones.dev/chart/stable&quot;
-    version                    = &quot;1.21.0&quot;
-    namespace                  = &quot;agones-system&quot; # Agones recommends to install in it&#39;s own namespace such as `agones-system` as shown here. You can specify any namespace other than `kube-system`
-    values = [templatefile(&quot;${path.module}/helm_values/agones-values.yaml&quot;, {
-      expose_udp            = true
-      gameserver_namespaces = &quot;{${join(&quot;,&quot;, [&quot;default&quot;, &quot;xbox-gameservers&quot;, &quot;xbox-gameservers&quot;])}}&quot;
-      gameserver_minport    = 7000
-      gameserver_maxport    = 8000
-    })]
-  }
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="na">enable_agones</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="c1">  # Optional  agones_helm_config</span>
+<span class="w">  </span><span class="nb">agones_helm_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">name</span><span class="w">                       </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;agones&quot;</span>
+<span class="w">    </span><span class="na">chart</span><span class="w">                      </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;agones&quot;</span>
+<span class="w">    </span><span class="na">repository</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://agones.dev/chart/stable&quot;</span>
+<span class="w">    </span><span class="na">version</span><span class="w">                    </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;1.21.0&quot;</span>
+<span class="w">    </span><span class="na">namespace</span><span class="w">                  </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;agones-system&quot;</span><span class="c1"> # Agones recommends to install in it&#39;s own namespace such as `agones-system` as shown here. You can specify any namespace other than `kube-system`</span>
+<span class="w">    </span><span class="na">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nf">templatefile</span><span class="p">(</span><span class="s2">&quot;${path.module}/helm_values/agones-values.yaml&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="na">expose_udp</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
+<span class="w">      </span><span class="na">gameserver_namespaces</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;{${join(&quot;,&quot;, [&quot;default&quot;, &quot;xbox-gameservers&quot;, &quot;xbox-gameservers&quot;])}}&quot;</span>
+<span class="w">      </span><span class="na">gameserver_minport</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="m">7000</span>
+<span class="w">      </span><span class="na">gameserver_maxport</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="m">8000</span>
+<span class="w">    </span><span class="p">})]</span>
+<span class="w">  </span><span class="p">}</span>
 </code></pre></div>
 <h3 id="gitops-configuration">GitOps Configuration<a class="headerlink" href="#gitops-configuration" title="Permanent link">&para;</a></h3>
 <p>The following properties are made available for use when managing the add-on via GitOps.</p>
