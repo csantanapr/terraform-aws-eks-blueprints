@@ -1553,7 +1553,7 @@
 <h3 id="gitops-with-argocd">GitOps with ArgoCD<a class="headerlink" href="#gitops-with-argocd" title="Permanent link">&para;</a></h3>
 <p>To indicate that you would like to manage add-ons via ArgoCD, you must do the following:</p>
 <ol>
-<li>Enable the ArgoCD add-on by setting <code>argocd_enable</code> to <code>true</code>.</li>
+<li>Enable the ArgoCD add-on by setting <code>enable_argocd</code> to <code>true</code>.</li>
 <li>Specify you would like ArgoCD to be responsible for deploying your add-ons by setting <code>argocd_manage_add_ons</code> to <code>true</code>. This will prevent the individual Terraform add-on modules from deploying Helm charts.</li>
 <li>Pass Application configuration for your add-ons repository via the <code>argocd_applications</code> property.</li>
 </ol>
