@@ -45,17 +45,19 @@ provider "kubectl" {
 data "aws_availability_zones" "available" {}
 
 locals {
-  name   = basename(path.cwd)
-  region = "us-west-2"
+  name   = var.name
+  region = var.region
 
-  vpc_cidr           = "10.0.0.0/16"
-  secondary_vpc_cidr = "10.99.0.0/16"
+  vpc_cidr           = var.vpc_cidr
+  secondary_vpc_cidr = var.secondary_vpc_cidr
   azs                = slice(data.aws_availability_zones.available.names, 0, 3)
 
   tags = {
     Blueprint  = local.name
     GithubRepo = "github.com/aws-ia/terraform-aws-eks-blueprints"
   }
+  domain_name = var.domain_name
+  enable_ingress = true
 }
 
 ################################################################################
@@ -133,6 +135,78 @@ resource "kubectl_manifest" "eni_config" {
       subnet = each.value
     }
   })
+}
+
+
+
+
+################################################################################
+# EKS Blueprints Addons
+################################################################################
+
+module "eks_blueprints_addons" {
+  source  = "aws-ia/eks-blueprints-addons/aws"
+  version = "~> 1.0"
+
+  cluster_name      = module.eks.cluster_name
+  cluster_endpoint  = module.eks.cluster_endpoint
+  cluster_version   = module.eks.cluster_version
+  oidc_provider_arn = module.eks.oidc_provider_arn
+
+  # Add-ons
+  enable_aws_load_balancer_controller = true
+  enable_metrics_server               = true
+  enable_external_dns                 = local.enable_ingress ? true : false
+
+  external_dns_route53_zone_arns = [local.my_domain_arn] # ArgoCD Server and UI domain name is registered in Route 53
+
+  external_dns = {
+    values = [
+        <<-EOT
+          domainFilters : [${local.domain_name}]
+          policy: "sync" # Allows to delete DNS records
+        EOT
+      ]
+  }
+
+
+
+  tags = local.tags
+}
+
+################################################################################
+# ACM Certificate
+################################################################################
+locals {
+  my_domain_arn = try(data.aws_route53_zone.domain_name[0].arn, "")
+}
+
+data "aws_route53_zone" "domain_name" {
+  count        = local.enable_ingress ? 1 : 0
+  name         = local.domain_name
+  private_zone = false
+}
+
+resource "aws_acm_certificate" "cert" {
+  count             = local.enable_ingress ? 1 : 0
+  domain_name       = "*.${local.domain_name}"
+  validation_method = "DNS"
+}
+
+resource "aws_route53_record" "cert" {
+  count           = local.enable_ingress ? 1 : 0
+  zone_id         = data.aws_route53_zone.domain_name[0].zone_id
+  name            = tolist(aws_acm_certificate.cert[0].domain_validation_options)[0].resource_record_name
+  type            = tolist(aws_acm_certificate.cert[0].domain_validation_options)[0].resource_record_type
+  records         = [tolist(aws_acm_certificate.cert[0].domain_validation_options)[0].resource_record_value]
+  ttl             = 60
+  allow_overwrite = true
+}
+
+resource "aws_acm_certificate_validation" "cert" {
+  count                   = local.enable_ingress ? 1 : 0
+  certificate_arn         = aws_acm_certificate.cert[0].arn
+  validation_record_fqdns = [for record in aws_route53_record.cert : record.fqdn]
 }
 
 ################################################################################
