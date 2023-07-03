@@ -164,8 +164,17 @@ module "eks_blueprints_addons" {
         }
       })
     }
-    vpc-cni    = {}
     kube-proxy = {}
+    vpc-cni = {
+      most_recent    = true # To ensure access to the latest settings provided
+      configuration_values = jsonencode({
+        env = {
+          # Reference docs https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
+          ENABLE_PREFIX_DELEGATION = "true"
+          WARM_PREFIX_TARGET       = "1"
+        }
+      })
+    }
   }
 
   enable_karpenter = true
@@ -242,6 +251,36 @@ resource "kubectl_manifest" "karpenter_node_template" {
   YAML
 }
 
+
+/*
+
+To do it manually
+
+kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inflate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inflate
+  template:
+    metadata:
+      labels:
+        app: inflate
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: inflate
+          image: public.ecr.aws/eks-distro/kubernetes/pause:3.7
+          resources:
+            requests:
+              cpu: 1
+EOF
+
+
 # Example deployment using the [pause image](https://www.ianlewis.org/en/almighty-pause-container)
 # and starts with zero replicas
 resource "kubectl_manifest" "karpenter_example_deployment" {
@@ -273,6 +312,7 @@ resource "kubectl_manifest" "karpenter_example_deployment" {
     kubectl_manifest.karpenter_node_template
   ]
 }
+*/
 
 ################################################################################
 # Supporting Resources
