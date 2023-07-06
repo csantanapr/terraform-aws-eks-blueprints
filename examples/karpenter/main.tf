@@ -198,12 +198,12 @@ resource "kubectl_manifest" "karpenter_provisioner" {
       name: default
     spec:
       requirements:
-        - key: "karpenter.k8s.aws/instance-category"
+        - key: "karpenter.k8s.aws/instance-family"
           operator: In
-          values: ["c", "m"]
-        - key: "karpenter.k8s.aws/instance-cpu"
+          values: ["t4g"]
+        - key: "karpenter.k8s.aws/instance-size"
           operator: In
-          values: ["8", "16", "32"]
+          values: ["small"]
         - key: "karpenter.k8s.aws/instance-hypervisor"
           operator: In
           values: ["nitro"]
@@ -212,12 +212,11 @@ resource "kubectl_manifest" "karpenter_provisioner" {
           values: ${jsonencode(local.azs)}
         - key: "kubernetes.io/arch"
           operator: In
-          values: ["arm64", "amd64"]
+          values: ["arm64"]
         - key: "karpenter.sh/capacity-type" # If not included, the webhook for the AWS cloud provider will default to on-demand
           operator: In
-          values: ["spot", "on-demand"]
+          values: ["spot"]
       kubeletConfiguration:
-        containerRuntime: containerd
         maxPods: 110
       limits:
         resources:
@@ -230,8 +229,9 @@ resource "kubectl_manifest" "karpenter_provisioner" {
   YAML
 
   depends_on = [
-    module.eks_blueprints_addons
+    kubectl_manifest.karpenter_node_template
   ]
+
 }
 
 resource "kubectl_manifest" "karpenter_node_template" {
@@ -249,6 +249,10 @@ resource "kubectl_manifest" "karpenter_node_template" {
       tags:
         karpenter.sh/discovery: ${module.eks.cluster_name}
   YAML
+
+  depends_on = [
+    module.eks_blueprints_addons
+  ]
 }
 
 
@@ -262,7 +266,7 @@ kind: Deployment
 metadata:
   name: inflate
 spec:
-  replicas: 1
+  replicas: 108
   selector:
     matchLabels:
       app: inflate
@@ -277,7 +281,8 @@ spec:
           image: public.ecr.aws/eks-distro/kubernetes/pause:3.7
           resources:
             requests:
-              cpu: 1
+              cpu: 16m
+              memory: 12Mi
 EOF
 
 
