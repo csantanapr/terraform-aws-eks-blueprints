@@ -36,15 +36,15 @@ agones:
       path: server.key
     allocationApiService:
       annotations:
-        cert-manager.io/inject-ca-from: agones-system/my-release-agones-cert
+        cert-manager.io/inject-ca-from: agones-system/agones-cert
       disableCaBundle: true
     validatingWebhook:
       annotations:
-        cert-manager.io/inject-ca-from: agones-system/my-release-agones-cert
+        cert-manager.io/inject-ca-from: agones-system/agones-cert
       disableCaBundle: true
     mutatingWebhook:
       annotations:
-        cert-manager.io/inject-ca-from: agones-system/my-release-agones-cert
+        cert-manager.io/inject-ca-from: agones-system/agones-cert
       disableCaBundle: true
   extensions:
     disableSecret: true
