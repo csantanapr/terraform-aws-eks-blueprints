@@ -35,7 +35,7 @@ Deploy Addons and Workloads:
 ```shell
 kubectl apply -f bootstrap/
 ```
-Wait for gitops resources to be healthy (Ctrl+C to exit)
+Wait for all gitops resources to be healthy (Ctrl+C to exit)
 ```shell
 watch kubectl get applications -n argocd
 ```
