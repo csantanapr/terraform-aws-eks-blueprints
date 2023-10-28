@@ -31,6 +31,4 @@ spec:
           - CreateNamespace=true
           - ServerSideApply=true  # Big CRDs.
         retry:
-          backoff:
-            duration: 1m
           limit: 60
