@@ -50,7 +50,7 @@ watch kubectl get applications -n argocd
 
 2. Get the IP Address for agones game server
     ```shell
-    kubectl get gs
+    kubectl get gs -n default
     ```
     ```text
     NAME                       STATE   ADDRESS         PORT   NODE                                        AGE

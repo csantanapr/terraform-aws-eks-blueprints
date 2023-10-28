@@ -29,9 +29,9 @@ spec:
               gameservers:
                 minPort: {{metadata.annotations.agones_gameserver_minport}}
                 maxPort: {{metadata.annotations.agones_gameserver_maxport}}
-        - repoURL: https://github.com/googleforgames/agones
-          targetRevision: v1.32.0
-          path: examples/simple-game-server/gameserver.yaml
+        - repoURL: '{{metadata.annotations.workload_repo_url}}'
+          targetRevision: '{{metadata.annotations.workload_repo_revision}}'
+          path: '{{metadata.annotations.workload_repo_basepath}}{{metadata.annotations.workload_repo_path}}/agones'
       destination:
         namespace: agones-system
         name: '{{name}}'
