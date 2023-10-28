@@ -13,6 +13,8 @@ terraform -chdir=$SCRIPTDIR output -raw configure_kubectl > "$TMPFILE"
 if [[ ! $(cat $TMPFILE) == *"No outputs found"* ]]; then
   source "$TMPFILE"
   kubectl delete -n argocd applicationset workloads
+  kubectl delete -n argocd applicationset agones-games
+  kubectl delete -n argocd applicationset agones-controller
   echo "Waiting for workloads to be deleted"
   sleep 120
   kubectl delete -n argocd applicationset cluster-addons
