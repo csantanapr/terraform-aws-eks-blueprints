@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: agones
+  name: agones-controller
   namespace: argocd
 spec:
   syncPolicy:
@@ -10,7 +10,7 @@ spec:
     - clusters: {}
   template:
     metadata:
-      name: agones
+      name: agones-controller
       #finalizers:
         # This finalizer is for demo purposes, in production remove apps using argocd CLI "argocd app delete workload --cascade"
         # When you invoke argocd app delete with --cascade, the finalizer is added automatically.
@@ -28,14 +28,14 @@ spec:
             releaseName: agones
             ignoreMissingValueFiles: false
             valueFiles:
-              - $values/{{metadata.annotations.workload_repo_basepath}}{{metadata.annotations.workload_repo_path}}/agones/values.yaml
+              - $values/{{metadata.annotations.workload_repo_basepath}}{{metadata.annotations.workload_repo_path}}/agones/controller/values.yaml
             values: |
               gameservers:
                 minPort: {{metadata.annotations.agones_gameserver_minport}}
                 maxPort: {{metadata.annotations.agones_gameserver_maxport}}
         - repoURL: '{{metadata.annotations.workload_repo_url}}'
           targetRevision: '{{metadata.annotations.workload_repo_revision}}'
-          path: '{{metadata.annotations.workload_repo_basepath}}{{metadata.annotations.workload_repo_path}}/agones'
+          path: '{{metadata.annotations.workload_repo_basepath}}{{metadata.annotations.workload_repo_path}}/agones/controller'
       destination:
         namespace: agones-system
         name: '{{name}}'
