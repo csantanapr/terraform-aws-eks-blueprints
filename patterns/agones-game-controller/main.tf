@@ -44,6 +44,8 @@ locals {
   gameserver_minport = 7000
   gameserver_maxport = 8000
 
+  enable_gitops_bridge = var.enable_gitops_bridge
+
   gitops_addons_url      = "${var.gitops_addons_org}/${var.gitops_addons_repo}"
   gitops_addons_basepath = var.gitops_addons_basepath
   gitops_addons_path     = var.gitops_addons_path
@@ -95,12 +97,6 @@ locals {
     agones_gameserver_maxport = local.gameserver_maxport
   }
 
-  argocd_apps = {
-    # Uncomment to deploy GitOps bootstrap from Terraform, instead of kubectl
-    # addons    = file("${path.module}/bootstrap/addons.yaml")
-    # workloads = file("${path.module}/bootstrap/workloads.yaml")
-  }
-
   tags = {
     Blueprint  = local.name
     GithubRepo = "github.com/aws-ia/terraform-aws-eks-blueprints"
@@ -118,6 +114,12 @@ module "eks" {
   cluster_name                   = local.name
   cluster_version                = local.cluster_version
   cluster_endpoint_public_access = true
+
+  cluster_addons = {
+    coredns    = {}
+    kube-proxy = {}
+    vpc-cni    = {}
+  }
 
   vpc_id                   = module.vpc.vpc_id
   control_plane_subnet_ids = module.vpc.private_subnets
@@ -202,14 +204,7 @@ module "eks_blueprints_addons" {
   cluster_version   = module.eks.cluster_version
   oidc_provider_arn = module.eks.oidc_provider_arn
 
-  # EKS Add-Ons
-  eks_addons = {
-    coredns    = {}
-    vpc-cni    = {}
-    kube-proxy = {}
-  }
-
-  helm_releases = var.enable_gitops_bridge ? {} : {
+  helm_releases = local.enable_gitops_bridge ? {} : {
     agones = {
       description      = "A Helm chart for Agones game server"
       namespace        = "agones-system"
@@ -228,7 +223,7 @@ module "eks_blueprints_addons" {
   }
 
   # Using GitOps Bridge
-  create_kubernetes_resources = var.enable_gitops_bridge ? false : true
+  create_kubernetes_resources = local.enable_gitops_bridge ? false : true
 
   # EKS Blueprints Addons
   enable_cluster_autoscaler = local.aws_addons.enable_cluster_autoscaler
@@ -242,13 +237,12 @@ module "eks_blueprints_addons" {
 ################################################################################
 module "gitops_bridge_bootstrap" {
   source = "github.com/gitops-bridge-dev/gitops-bridge-argocd-bootstrap-terraform?ref=v2.0.0"
-  #count = var.enable_gitops_bridge ? 1 : 0
+  count  = local.enable_gitops_bridge ? 1 : 0
 
   cluster = {
     metadata = merge(local.addons_metadata, local.workload_metadata)
     addons   = local.addons
   }
-  apps = local.argocd_apps
 }
 
 ################################################################################

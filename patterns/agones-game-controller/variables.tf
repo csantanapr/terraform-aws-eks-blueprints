@@ -26,7 +26,7 @@ variable "addons" {
 variable "enable_gitops_bridge" {
   description = "Enable the GitOps-Bridge for this example"
   type        = bool
-  default     = true
+  default     = false
 }
 
 # GitOps-Bridge: Addons Git
