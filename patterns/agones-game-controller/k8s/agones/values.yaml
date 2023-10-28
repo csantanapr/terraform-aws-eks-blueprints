@@ -25,6 +25,48 @@ agones:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-internal: "false"
         service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+  controller:
+    disableSecret: true
+    customCertSecretPath:
+    - key: ca.crt
+      path: ca.crt
+    - key: tls.crt
+      path: server.crt
+    - key: tls.key
+      path: server.key
+    allocationApiService:
+      annotations:
+        cert-manager.io/inject-ca-from: agones-system/my-release-agones-cert
+      disableCaBundle: true
+    validatingWebhook:
+      annotations:
+        cert-manager.io/inject-ca-from: agones-system/my-release-agones-cert
+      disableCaBundle: true
+    mutatingWebhook:
+      annotations:
+        cert-manager.io/inject-ca-from: agones-system/my-release-agones-cert
+      disableCaBundle: true
+  extensions:
+    disableSecret: true
+    customCertSecretPath:
+    - key: ca.crt
+      path: ca.crt
+    - key: tls.crt
+      path: server.crt
+    - key: tls.key
+      path: server.key
+    allocationApiService:
+      annotations:
+        cert-manager.io/inject-ca-from: agones-system/my-release-agones-cert
+      disableCaBundle: true
+    validatingWebhook:
+      annotations:
+        cert-manager.io/inject-ca-from: agones-system/my-release-agones-cert
+      disableCaBundle: true
+    mutatingWebhook:
+      annotations:
+        cert-manager.io/inject-ca-from: agones-system/my-release-agones-cert
+      disableCaBundle: true
 gameservers:
   namespaces: ["default"]
   podPreserveUnknownFields: false

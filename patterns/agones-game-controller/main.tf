@@ -57,7 +57,9 @@ locals {
   gitops_workload_revision = var.gitops_workload_revision
 
   aws_addons = {
+    enable_cert_manager       = try(var.addons.enable_cert_manager, false)
     enable_cluster_autoscaler = try(var.addons.enable_cluster_autoscaler, false)
+
   }
   oss_addons = {
     enable_argocd         = try(var.addons.enable_argocd, true)
@@ -226,6 +228,7 @@ module "eks_blueprints_addons" {
   create_kubernetes_resources = local.enable_gitops_bridge ? false : true
 
   # EKS Blueprints Addons
+  enable_cert_manager       = local.aws_addons.enable_cert_manager
   enable_cluster_autoscaler = local.aws_addons.enable_cluster_autoscaler
   enable_metrics_server     = local.oss_addons.enable_metrics_server
 
