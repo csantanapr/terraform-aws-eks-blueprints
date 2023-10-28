@@ -24,11 +24,14 @@ spec:
             releaseName: agones
             ignoreMissingValueFiles: false
             valueFiles:
-              - $values/{{metadata.annotations.workload_repo_basepath}}{{metadata.annotations.workload_repo_path}}/agones-values.yaml
+              - $values/{{metadata.annotations.workload_repo_basepath}}{{metadata.annotations.workload_repo_path}}/agones/values.yaml
             values: |
               gameservers:
                 minPort: {{metadata.annotations.agones_gameserver_minport}}
                 maxPort: {{metadata.annotations.agones_gameserver_maxport}}
+        - repoURL: https://github.com/googleforgames/agones
+          targetRevision: '1.32.0'
+          path: examples/simple-game-server/gameserver.yaml
       destination:
         namespace: agones-system
         name: '{{name}}'
