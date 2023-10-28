@@ -23,7 +23,7 @@ spec:
           ref: values
         - chart: agones
           repoURL: https://agones.dev/chart/stable
-          targetRevision: '1.35.0'
+          targetRevision: '1.32.0'
           helm:
             releaseName: agones
             ignoreMissingValueFiles: false
