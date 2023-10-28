@@ -231,8 +231,8 @@ module "eks_blueprints_addons" {
   create_kubernetes_resources = var.enable_gitops_bridge ? false : true
 
   # EKS Blueprints Addons
-  enable_cluster_autoscaler = try(local.aws_addons.enable_cluster_autoscaler, false)
-  enable_metrics_server     = try(local.oss_addons.enable_metrics_server, false)
+  enable_cluster_autoscaler = local.aws_addons.enable_cluster_autoscaler
+  enable_metrics_server     = local.oss_addons.enable_metrics_server
 
   tags = local.tags
 }
@@ -242,6 +242,7 @@ module "eks_blueprints_addons" {
 ################################################################################
 module "gitops_bridge_bootstrap" {
   source = "github.com/gitops-bridge-dev/gitops-bridge-argocd-bootstrap-terraform?ref=v2.0.0"
+  #count = var.enable_gitops_bridge ? 1 : 0
 
   cluster = {
     metadata = merge(local.addons_metadata, local.workload_metadata)
