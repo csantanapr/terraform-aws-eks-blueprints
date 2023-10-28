@@ -25,6 +25,7 @@ agones:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-internal: "false"
         service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+      disableMTLS: true
   extensions:
     customCertSecretPath:
     - key: ca.crt
