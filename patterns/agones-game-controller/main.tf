@@ -28,19 +28,78 @@ provider "helm" {
   }
 }
 
+data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
 
 locals {
   name   = basename(path.cwd)
-  region = "us-west-2"
+  region = var.region
 
-  cluster_version = "1.27"
+  cluster_version = var.kubernetes_version
 
-  vpc_cidr = "10.0.0.0/16"
+
+  vpc_cidr = var.vpc_cidr
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 
   gameserver_minport = 7000
   gameserver_maxport = 8000
+
+  gitops_addons_url      = "${var.gitops_addons_org}/${var.gitops_addons_repo}"
+  gitops_addons_basepath = var.gitops_addons_basepath
+  gitops_addons_path     = var.gitops_addons_path
+  gitops_addons_revision = var.gitops_addons_revision
+
+  gitops_workload_url      = "${var.gitops_workload_org}/${var.gitops_workload_repo}"
+  gitops_workload_basepath = var.gitops_workload_basepath
+  gitops_workload_path     = var.gitops_workload_path
+  gitops_workload_revision = var.gitops_workload_revision
+
+  aws_addons = {
+    enable_cluster_autoscaler = try(var.addons.enable_cluster_autoscaler, false)
+  }
+  oss_addons = {
+    enable_argocd         = try(var.addons.enable_argocd, true)
+    enable_metrics_server = try(var.addons.enable_metrics_server, false)
+  }
+  addons = merge(
+    local.aws_addons,
+    local.oss_addons,
+    { kubernetes_version = local.cluster_version },
+    { aws_cluster_name = module.eks.cluster_name }
+  )
+
+  addons_metadata = merge(
+    module.eks_blueprints_addons.gitops_metadata,
+    {
+      aws_cluster_name = module.eks.cluster_name
+      aws_region       = local.region
+      aws_account_id   = data.aws_caller_identity.current.account_id
+      aws_vpc_id       = module.vpc.vpc_id
+    },
+    {
+      addons_repo_url      = local.gitops_addons_url
+      addons_repo_basepath = local.gitops_addons_basepath
+      addons_repo_path     = local.gitops_addons_path
+      addons_repo_revision = local.gitops_addons_revision
+    },
+    {
+      workload_repo_url      = local.gitops_workload_url
+      workload_repo_basepath = local.gitops_workload_basepath
+      workload_repo_path     = local.gitops_workload_path
+      workload_repo_revision = local.gitops_workload_revision
+    }
+  )
+
+  workload_metadata = {
+    agones_gameserver_minport = local.gameserver_minport
+    agones_gameserver_maxport = local.gameserver_maxport
+  }
+
+  argocd_apps = {
+    # Uncomment to deploy GitOps bootstrap from Terraform, instead of kubectl
+    # addons    = file("${path.module}/bootstrap/addons.yaml")
+    # workloads = file("${path.module}/bootstrap/workloads.yaml")
+  }
 
   tags = {
     Blueprint  = local.name
@@ -150,11 +209,7 @@ module "eks_blueprints_addons" {
     kube-proxy = {}
   }
 
-  # Add-ons
-  enable_metrics_server     = true
-  enable_cluster_autoscaler = true
-
-  helm_releases = {
+  helm_releases = var.enable_gitops_bridge ? {} : {
     agones = {
       description      = "A Helm chart for Agones game server"
       namespace        = "agones-system"
@@ -172,7 +227,27 @@ module "eks_blueprints_addons" {
     }
   }
 
+  # Using GitOps Bridge
+  create_kubernetes_resources = var.enable_gitops_bridge ? false : true
+
+  # EKS Blueprints Addons
+  enable_cluster_autoscaler = try(local.aws_addons.enable_cluster_autoscaler, false)
+  enable_metrics_server     = try(local.oss_addons.enable_metrics_server, false)
+
   tags = local.tags
+}
+
+################################################################################
+# GitOps Bridge: Bootstrap
+################################################################################
+module "gitops_bridge_bootstrap" {
+  source = "github.com/gitops-bridge-dev/gitops-bridge-argocd-bootstrap-terraform?ref=v2.0.0"
+
+  cluster = {
+    metadata = merge(local.addons_metadata, local.workload_metadata)
+    addons   = local.addons
+  }
+  apps = local.argocd_apps
 }
 
 ################################################################################

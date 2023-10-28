@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: agones
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: agones
+    spec:
+      project: default
+      sources:
+        - repoURL: '{{metadata.annotations.workload_repo_url}}'
+          targetRevision: '{{metadata.annotations.workload_repo_revision}}'
+          ref: values
+        - chart: agones
+          repoURL: https://agones.dev/chart/stable
+          targetRevision: '1.32.0'
+          helm:
+            releaseName: agones
+            ignoreMissingValueFiles: false
+            valueFiles:
+              - $values/{{metadata.annotations.workload_repo_basepath}}{{metadata.annotations.workload_repo_path}}/agones-values.yaml
+            values: |
+              gameservers:
+                minPort: {{metadata.annotations.agones_gameserver_minport}}
+                maxPort: {{metadata.annotations.agones_gameserver_maxport}}
+      destination:
+        namespace: agones-system
+        name: '{{name}}'
+      syncPolicy:
+        automated:
+          prune: false
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true  # Big CRDs.
+        retry:
+          backoff:
+            duration: 1m
+          limit: 60

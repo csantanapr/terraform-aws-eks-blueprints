@@ -21,17 +21,37 @@ through the details of deploying EKS Cluster using eksctl and deploy Agones with
 
 ## Deploy
 
+### (Optional) Enable GitOps
+You can deploy Addons and Workloads using GitOps.
+Set the following environment variables to true:
+```shell
+export TF_VAR_enable_gitops_bridge=true
+```
+
 See [here](https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#prerequisites) for the prerequisites and steps to deploy this pattern.
+
+### (Optional) Deploy using GitOps
+Deploy Addons and Workloads:
+```shell
+kubectl apply -f bootstrap/
+```
+Wait for gitops resources to be healthy (Ctrl+C to exit)
+```shell
+watch kubectl get applications -n argocd
+```
 
 ## Validate
 
-1. Deploy the sample game server
+1. Deploy the sample game server (skip if using GitOps)
 
     ```sh
     kubectl create -f https://raw.githubusercontent.com/googleforgames/agones/release-1.32.0/examples/simple-game-server/gameserver.yaml
-    kubectl get gs
     ```
 
+2. Get the IP Address for agones game server
+    ```shell
+    kubectl get gs
+    ```
     ```text
     NAME                       STATE   ADDRESS         PORT   NODE                                        AGE
     simple-game-server-7r6jr   Ready   34.243.345.22   7902   ip-10-1-23-233.eu-west-1.compute.internal   11h
