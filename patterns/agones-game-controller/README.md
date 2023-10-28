@@ -48,7 +48,7 @@ watch kubectl get applications -n argocd
     kubectl create -f https://raw.githubusercontent.com/googleforgames/agones/release-1.32.0/examples/simple-game-server/gameserver.yaml
     ```
 
-2. Get the IP Address for agones game server
+2. Get the Address for the game server
     ```shell
     kubectl get gs -n default
     ```
@@ -60,15 +60,14 @@ watch kubectl get applications -n argocd
 2. Test the sample game server using [`netcat`](https://netcat.sourceforge.net/)
 
     ```sh
-    echo -n "UDP test - Hello EKS Blueprints!" | nc -u 34.243.345.22 7902
+    echo "UDP test - Hello EKS Blueprints\!" | nc -u 34.243.345.22 7902
     ```
 
     ```text
-    Hello EKS Blueprints!
-    ACK: Hello EKS Blueprints!
-    EXIT
-    ACK: EXIT
+    UDP test - Hello EKS Blueprints!
+    ACK: UDP test - Hello EKS Blueprints!
     ```
+    > Use Ctrl+C to exit
 
 ## Destroy
 
