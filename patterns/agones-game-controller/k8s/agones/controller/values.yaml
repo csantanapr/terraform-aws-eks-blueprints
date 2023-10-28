@@ -9,7 +9,7 @@ agones:
         service.beta.kubernetes.io/aws-load-balancer-internal: "false"
         service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
     udp:
-      expose: ${expose_udp}
+      expose: true
       serviceType: LoadBalancer
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-internal: "false"
