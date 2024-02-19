@@ -623,6 +623,26 @@
   
   
     <li class="md-nav__item">
+      <a href="../kubecost/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubecost
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../multi-tenancy-with-teams/" class="md-nav__link">
         
   
@@ -850,6 +870,26 @@
   
   <span class="md-ellipsis">
     TLS w/ AWS PCA Issuer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vpc-lattice/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amazon VPC Lattice
   </span>
   
 
@@ -1345,15 +1385,19 @@
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
 </span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1"># Output should look similar to below</span>
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>NAME<span class="w">      </span>PROVIDER<span class="w">   </span>BUCKET/PREFIX<span class="w">             </span>PHASE<span class="w">       </span>LAST<span class="w"> </span>VALIDATED<span class="w">                  </span>ACCESS<span class="w"> </span>MODE<span class="w">   </span>DEFAULT
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>default<span class="w">   </span>aws<span class="w">        </span>velero-ssqwm44hvofzb32d<span class="w">   </span>Available<span class="w">   </span><span class="m">2022</span>-05-22<span class="w"> </span><span class="m">10</span>:53:26<span class="w"> </span>-0400<span class="w"> </span>EDT<span class="w">   </span>ReadWrite<span class="w">     </span><span class="nb">true</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>default<span class="w">   </span>aws<span class="w">        </span>velero-ss1wm44hv1fzb32d<span class="w">   </span>Available<span class="w">   </span><span class="m">2022</span>-05-22<span class="w"> </span><span class="m">10</span>:53:26<span class="w"> </span>-0400<span class="w"> </span>EDT<span class="w">   </span>ReadWrite<span class="w">     </span><span class="nb">true</span>
 </span></code></pre></div>
 </li>
 </ol>
 <h2 id="destroy">Destroy<a class="headerlink" href="#destroy" title="Permanent link">&para;</a></h2>
 <!-- BEGIN INCLUDE ../../docs/_partials/destroy.md -->
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks_blueprints_addons&quot;</span><span class="w"> </span>-auto-approve
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks&quot;</span><span class="w"> </span>-auto-approve
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-auto-approve
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Necessary to avoid removing Terraform&#39;s permissions too soon before its finished</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="c1"># cleaning up the resources it deployed inside the cluster</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>terraform<span class="w"> </span>state<span class="w"> </span>rm<span class="w"> </span><span class="s1">&#39;module.eks.aws_eks_access_entry.this[&quot;cluster_creator_admin&quot;]&#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks_blueprints_addons&quot;</span><span class="w"> </span>-auto-approve
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks&quot;</span><span class="w"> </span>-auto-approve
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-auto-approve
 </span></code></pre></div>
 <p>See <a href="https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#destroy">here</a> for more details on cleaning up the resources created.</p>
 <!-- END INCLUDE -->

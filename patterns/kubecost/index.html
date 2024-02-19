@@ -10,13 +10,13 @@
         <meta name="author" content="AWS">
       
       
-        <link rel="canonical" href="https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/elastic-fabric-adapter/">
+        <link rel="canonical" href="https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/kubecost/">
       
       
-        <link rel="prev" href="../blue-green-upgrade/">
+        <link rel="prev" href="../karpenter/">
       
       
-        <link rel="next" href="../external-secrets/">
+        <link rel="next" href="../multi-tenancy-with-teams/">
       
       
       <link rel="icon" href="../../images/colored-logo.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>Elastic Fabric Adapter - Amazon EKS Blueprints for Terraform</title>
+        <title>Kubecost - Amazon EKS Blueprints for Terraform</title>
       
     
     
@@ -116,7 +116,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#eks-cluster-w-elastic-fabric-adapter" class="md-skip">
+        <a href="#kubecost-with-aws-cloud-billing-integration" class="md-skip">
           Skip to content
         </a>
       
@@ -155,7 +155,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Elastic Fabric Adapter
+              Kubecost
             
           </span>
         </div>
@@ -421,29 +421,9 @@
                 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Elastic Fabric Adapter
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../elastic-fabric-adapter/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -452,47 +432,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#deploy" class="md-nav__link">
-    Deploy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validate" class="md-nav__link">
-    Validate
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#destroy" class="md-nav__link">
-    Destroy
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -682,9 +621,29 @@
                 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../kubecost/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Kubecost
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -693,6 +652,33 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1133,22 +1119,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#deploy" class="md-nav__link">
-    Deploy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validate" class="md-nav__link">
-    Validate
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#destroy" class="md-nav__link">
-    Destroy
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
   </a>
   
 </li>
@@ -1171,116 +1143,51 @@
   
 
 
-<!-- BEGIN INCLUDE ../../patterns/elastic-fabric-adapter/README.md -->
-<h1 id="eks-cluster-w-elastic-fabric-adapter">EKS Cluster w/ Elastic Fabric Adapter<a class="headerlink" href="#eks-cluster-w-elastic-fabric-adapter" title="Permanent link">&para;</a></h1>
-<p>This pattern demonstrates an Amazon EKS Cluster with an EFA-enabled nodegroup.</p>
-<h2 id="deploy">Deploy<a class="headerlink" href="#deploy" title="Permanent link">&para;</a></h2>
-<p>See <a href="https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#prerequisites">here</a> for the prerequisites and steps to deploy this pattern.</p>
-<h2 id="validate">Validate<a class="headerlink" href="#validate" title="Permanent link">&para;</a></h2>
-<ol>
-<li>
-<p>List the nodes by instance type:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>instance-type<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>node<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>f:
+<!-- BEGIN INCLUDE ../../patterns/kubecost/README.md -->
+<h1 id="kubecost-with-aws-cloud-billing-integration">Kubecost with AWS Cloud Billing Integration<a class="headerlink" href="#kubecost-with-aws-cloud-billing-integration" title="Permanent link">&para;</a></h1>
+<p>This pattern demonstrates how to install and configure Kubecost with AWS CUR report.
+The terraform code was created following the official Kubecost documentation for <a href="https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations">aws cloud billing integration</a>.</p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<p>You need a valid Kubecost token. To generate one, follow the instructions <a href="https://www.kubecost.com/install#show-instructions">here</a>.</p>
+<h1 id="deploy">Deploy<a class="headerlink" href="#deploy" title="Permanent link">&para;</a></h1>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>terraform init
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>terraform apply -target=&quot;module.vpc&quot; -auto-approve
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>terraform apply -target=&quot;module.eks&quot; -auto-approve
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>terraform apply -auto-approve --var=&quot;kubecost_token=&lt;your-kubecost-token&gt;&quot;
 </span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>node.kubernetes.io/instance-type: g5.8xlarge
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>node.kubernetes.io/instance-type: m5.large
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>node.kubernetes.io/instance-type: m5.large
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>node.kubernetes.io/instance-type: g5.8xlarge
+<p>Once all of the resources have successfully been provisioned, the following command can be used to update the <code>kubeconfig</code> on your local machine and allow you to interact with your EKS Cluster using <code>kubectl</code>.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a> aws eks --region &lt;REGION&gt; update-kubeconfig --name &lt;CLUSTER_NAME&gt;
 </span></code></pre></div>
-<p>You should see two EFA-enabled (in this example <code>g5.8xlarge</code>) nodes in the list.</p>
-</li>
-<li>
-<p>Deploy Kubeflow MPI Operator</p>
-<p>Kubeflow MPI Operator is required for running MPIJobs on EKS. We will use an MPIJob to test EFA.
-To deploy the MPI operator execute the following:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/kubeflow/mpi-operator/v0.3.0/deploy/v2beta1/mpi-operator.yaml
+<p>This command will create a S3 bucket with prefix <code>kubecost-</code> and a Cost and Usage Report (CUR). Within 24h The CUR will generate a CloudFormation template file called <code>crawler-cfn.yml</code> in the S3 bucket. Once that file is generated, navigate to:</p>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cd run-me-in-24h/
 </span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>namespace/mpi-operator created
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>customresourcedefinition.apiextensions.k8s.io/mpijobs.kubeflow.org created
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>serviceaccount/mpi-operator created
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>clusterrole.rbac.authorization.k8s.io/kubeflow-mpijobs-admin created
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>clusterrole.rbac.authorization.k8s.io/kubeflow-mpijobs-edit created
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>clusterrole.rbac.authorization.k8s.io/kubeflow-mpijobs-view created
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>clusterrole.rbac.authorization.k8s.io/mpi-operator created
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>clusterrolebinding.rbac.authorization.k8s.io/mpi-operator created
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>deployment.apps/mpi-operator created
+To download and apply the CloudFormation template, run:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>terraform init
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>terraform apply --auto-approve
+</span></code></pre></div></p>
+<h2 id="kubecost-ui">Kubecost UI<a class="headerlink" href="#kubecost-ui" title="Permanent link">&para;</a></h2>
+<p>To access the Kubecost UI run:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>echo http://$(kubectl -n kubecost get svc cost-analyzer-cost-analyzer -o jsonpath=&#39;{.status.loadBalancer.ingress[0].hostname}&#39;):9090/
 </span></code></pre></div>
-<p>In addition to deploying the operator, please apply a patch to the mpi-operator clusterrole
-to allow the mpi-operator service account access to <code>leases</code> resources in the <code>coordination.k8s.io</code> apiGroup.</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/aws-samples/aws-do-eks/main/Container-Root/eks/deployment/kubeflow/mpi-operator/clusterrole-mpi-operator.yaml
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>clusterrole.rbac.authorization.k8s.io/mpi-operator configured
-</span></code></pre></div>
-</li>
-<li>
-<p>EFA test</p>
-<p>The results should shown that two EFA adapters are available (one for each worker pod)</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/aws-samples/aws-do-eks/main/Container-Root/eks/deployment/efa-device-plugin/test-efa.yaml
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>mpijob.kubeflow.org/efa-info-test created
-</span></code></pre></div>
-<p>Once the test launcher pod enters status <code>Running</code> or <code>Completed</code>, see the test logs using the command below:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>launcher<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span>
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Warning: Permanently added &#39;efa-info-test-worker-1.efa-info-test-worker.default.svc,10.11.13.224&#39; (ECDSA) to the list of known hosts.
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Warning: Permanently added &#39;efa-info-test-worker-0.efa-info-test-worker.default.svc,10.11.4.63&#39; (ECDSA) to the list of known hosts.
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>[1,1]&lt;stdout&gt;:provider: efa
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>[1,1]&lt;stdout&gt;:    fabric: efa
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>[1,1]&lt;stdout&gt;:    domain: rdmap197s0-rdm
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>[1,1]&lt;stdout&gt;:    version: 116.10
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>[1,1]&lt;stdout&gt;:    type: FI_EP_RDM
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>[1,1]&lt;stdout&gt;:    protocol: FI_PROTO_EFA
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>[1,0]&lt;stdout&gt;:provider: efa
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>[1,0]&lt;stdout&gt;:    fabric: efa
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>[1,0]&lt;stdout&gt;:    domain: rdmap197s0-rdm
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>[1,0]&lt;stdout&gt;:    version: 116.10
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>[1,0]&lt;stdout&gt;:    type: FI_EP_RDM
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>[1,0]&lt;stdout&gt;:    protocol: FI_PROTO_EFA
-</span></code></pre></div>
-</li>
-<li>
-<p>EFA NCCL test</p>
-<p>To run the EFA NCCL test please execute the following kubectl command:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/aws-samples/aws-do-eks/main/Container-Root/eks/deployment/efa-device-plugin/test-nccl-efa.yaml
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>mpijob.kubeflow.org/test-nccl-efa created
-</span></code></pre></div>
-<p>Once the launcher pod enters <code>Running</code> or <code>Completed</code> state, execute the following to see the test logs:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>launcher<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span>
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>[1,0]&lt;stdout&gt;:test-nccl-efa-worker-0:21:21 [0] NCCL INFO NET/OFI Selected Provider is efa (found 1 nics)
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>[1,0]&lt;stdout&gt;:test-nccl-efa-worker-0:21:21 [0] NCCL INFO Using network AWS Libfabric
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>[1,0]&lt;stdout&gt;:NCCL version 2.12.7+cuda11.4
-</span></code></pre></div>
-<p>Columns 8 and 12 in the output table show the in-place and out-of-place bus bandwidth calculated for the data size listed in column 1. In this case it is 3.13 and 3.12 GB/s respectively.
-Your actual results may be slightly different. The calculated average bus bandwidth is displayed at the bottom of the log when the test finishes after it reaches the max data size,
-specified in the mpijob manifest. In this result the average bus bandwidth is 1.15 GB/s.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>[1,0]&lt;stdout&gt;:#       size         count      type   redop    root     time   algbw   busbw #wrong     time   algbw   busbw #wrong
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>[1,0]&lt;stdout&gt;:#        (B)    (elements)                               (us)  (GB/s)  (GB/s)            (us)  (GB/s)  (GB/s)
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>...
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>[1,0]&lt;stdout&gt;:      262144         65536     float     sum      -1    195.0    1.34    1.34      0    194.0    1.35    1.35      0
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>[1,0]&lt;stdout&gt;:      524288        131072     float     sum      -1    296.9    1.77    1.77      0    291.1    1.80    1.80      0
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>[1,0]&lt;stdout&gt;:     1048576        262144     float     sum      -1    583.4    1.80    1.80      0    579.6    1.81    1.81      0
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>[1,0]&lt;stdout&gt;:     2097152        524288     float     sum      -1    983.3    2.13    2.13      0    973.9    2.15    2.15      0
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>[1,0]&lt;stdout&gt;:     4194304       1048576     float     sum      -1   1745.4    2.40    2.40      0   1673.2    2.51    2.51      0
-</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>...
-</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>[1,0]&lt;stdout&gt;:# Avg bus bandwidth    : 1.15327
-</span></code></pre></div>
-</li>
-</ol>
+and navigate to the output URL.</p>
+<p>Navigate to Settings -&gt; Diagnostics -&gt; View Full Diagnostics</p>
+<p>Expected result:
+<img alt="screenshot" src="../../patterns/kubecost/static/screenshot.png" /></p>
+<blockquote>
+<p>[!NOTE]
+Spot Data Feed is included in Savings Plan, Reserved Instance, and Out-Of-Cluster.</p>
+</blockquote>
 <h2 id="destroy">Destroy<a class="headerlink" href="#destroy" title="Permanent link">&para;</a></h2>
-<!-- BEGIN INCLUDE ../../docs/_partials/destroy.md -->
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Necessary to avoid removing Terraform&#39;s permissions too soon before its finished</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1"># cleaning up the resources it deployed inside the cluster</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>terraform<span class="w"> </span>state<span class="w"> </span>rm<span class="w"> </span><span class="s1">&#39;module.eks.aws_eks_access_entry.this[&quot;cluster_creator_admin&quot;]&#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks_blueprints_addons&quot;</span><span class="w"> </span>-auto-approve
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks&quot;</span><span class="w"> </span>-auto-approve
-</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-auto-approve
+<p>First destroy the CloudFormation template:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>cd run-me-in-24h/
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>terraform destroy --auto-approve
+</span></code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cd ..
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>terraform destroy -target=&quot;module.eks_blueprints_addon&quot; --var=&quot;kubecost_token=&lt;your-kubecost-token&gt;&quot; -auto-approve
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>terraform destroy -target=&quot;module.eks_blueprints_addons&quot;
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>terraform destroy -target=&quot;module.eks&quot; -auto-approve
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>terraform destroy -auto-approve
 </span></code></pre></div>
-<p>See <a href="https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#destroy">here</a> for more details on cleaning up the resources created.</p>
-<!-- END INCLUDE -->
-
 <!-- END INCLUDE -->
 
 
