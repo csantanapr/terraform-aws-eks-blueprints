@@ -10,7 +10,7 @@
         <meta name="author" content="AWS">
       
       
-        <link rel="canonical" href="https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/elastic-fabric-adapter/">
+        <link rel="canonical" href="https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/ecr-pull-through-cache/">
       
       
         <link rel="prev" href="../blue-green-upgrade/">
@@ -20,18 +20,18 @@
       
       
       <link rel="icon" href="../../images/colored-logo.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.3.1">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.21">
     
     
       
-        <title>Elastic Fabric Adapter - Amazon EKS Blueprints for Terraform</title>
+        <title>ECR Pull Through Cache - Amazon EKS Blueprints for Terraform</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.046329b4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.66ac8b77.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
   
@@ -109,14 +109,13 @@
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="orange">
   
     
-    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
         
-        <a href="#eks-cluster-w-elastic-fabric-adapter" class="md-skip">
+        <a href="#ecr-pull-through-cache" class="md-skip">
           Skip to content
         </a>
       
@@ -155,7 +154,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Elastic Fabric Adapter
+              ECR Pull Through Cache
             
           </span>
         </div>
@@ -163,6 +162,7 @@
     </div>
     
       
+    
     
     
     
@@ -208,7 +208,7 @@
         <a href="https://github.com/aws-ia/terraform-aws-eks-blueprints" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
     terraform-aws-eks-blueprints
@@ -253,7 +253,7 @@
       <a href="https://github.com/aws-ia/terraform-aws-eks-blueprints" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
     terraform-aws-eks-blueprints
@@ -265,6 +265,7 @@
     
       
       
+  
   
   
   
@@ -284,6 +285,7 @@
     
       
       
+  
   
   
   
@@ -308,6 +310,8 @@
     
   
   
+  
+    
     
     
     
@@ -315,10 +319,9 @@
       
         
         
-        
-        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
+          
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
@@ -342,6 +345,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../agones-game-controller/" class="md-nav__link">
         
@@ -362,6 +366,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../aws-vpc-cni-network-policy/" class="md-nav__link">
         
@@ -379,6 +384,7 @@
             
               
                 
+  
   
   
   
@@ -404,6 +410,7 @@
     
   
   
+  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
@@ -416,7 +423,7 @@
           
   
   <span class="md-ellipsis">
-    Elastic Fabric Adapter
+    ECR Pull Through Cache
   </span>
   
 
@@ -427,7 +434,7 @@
         
   
   <span class="md-ellipsis">
-    Elastic Fabric Adapter
+    ECR Pull Through Cache
   </span>
   
 
@@ -450,21 +457,27 @@
       
         <li class="md-nav__item">
   <a href="#deploy" class="md-nav__link">
-    Deploy
+    <span class="md-ellipsis">
+      Deploy
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#validate" class="md-nav__link">
-    Validate
+    <span class="md-ellipsis">
+      Validate
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#destroy" class="md-nav__link">
-    Destroy
+    <span class="md-ellipsis">
+      Destroy
+    </span>
   </a>
   
 </li>
@@ -480,6 +493,7 @@
             
               
                 
+  
   
   
   
@@ -503,6 +517,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../fargate-serverless/" class="md-nav__link">
         
@@ -520,6 +535,7 @@
             
               
                 
+  
   
   
   
@@ -543,6 +559,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../gitops-getting-started-argocd/" class="md-nav__link">
         
@@ -560,6 +577,7 @@
             
               
                 
+  
   
   
   
@@ -583,6 +601,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../ipv6-eks-cluster/" class="md-nav__link">
         
@@ -600,6 +619,7 @@
             
               
                 
+  
   
   
   
@@ -623,12 +643,13 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../karpenter/" class="md-nav__link">
+      <a href="../karpenter-mng/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Karpenter
+    Karpenter on EKS MNG
   </span>
   
 
@@ -640,6 +661,28 @@
             
               
                 
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../karpenter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Karpenter on EKS Fargate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
   
   
   
@@ -663,6 +706,28 @@
   
   
   
+  
+    <li class="md-nav__item">
+      <a href="../ml-capacity-block/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ML Capacity Block Reservation (CBR)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../multi-tenancy-with-teams/" class="md-nav__link">
         
@@ -680,6 +745,28 @@
             
               
                 
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nvidia-gpu-efa/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NVIDIA GPUs with EFA
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
   
   
   
@@ -703,6 +790,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../privatelink-access/" class="md-nav__link">
         
@@ -720,6 +808,7 @@
             
               
                 
+  
   
   
   
@@ -743,6 +832,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../sso-okta/" class="md-nav__link">
         
@@ -760,6 +850,7 @@
             
               
                 
+  
   
   
   
@@ -783,6 +874,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../targeted-odcr/" class="md-nav__link">
         
@@ -800,6 +892,7 @@
             
               
                 
+  
   
   
   
@@ -823,6 +916,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../vpc-lattice/" class="md-nav__link">
         
@@ -840,6 +934,7 @@
             
               
                 
+  
   
   
   
@@ -863,6 +958,8 @@
   
   
   
+  
+    
     
     
     
@@ -870,11 +967,10 @@
       
         
         
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_27" >
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_24" >
-        
-          <label class="md-nav__link" for="__nav_3_24" id="__nav_3_24_label" tabindex="0">
+          
+          <label class="md-nav__link" for="__nav_3_27" id="__nav_3_27_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -885,8 +981,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_24_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_24">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_27_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_27">
             <span class="md-nav__icon md-icon"></span>
             Vpc lattice
           </label>
@@ -894,6 +990,7 @@
             
               
                 
+  
   
   
   
@@ -932,6 +1029,8 @@
   
   
   
+  
+    
     
     
     
@@ -939,10 +1038,9 @@
       
         
         
-        
-        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
+          
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
@@ -966,6 +1064,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../../snippets/ipv4-prefix-delegation/" class="md-nav__link">
         
@@ -983,6 +1082,7 @@
             
               
                 
+  
   
   
   
@@ -1013,6 +1113,8 @@
   
   
   
+  
+    
     
     
     
@@ -1020,10 +1122,9 @@
       
         
         
-        
-        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
+          
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
@@ -1047,6 +1148,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../../v4-to-v5/motivation/" class="md-nav__link">
         
@@ -1064,6 +1166,7 @@
             
               
                 
+  
   
   
   
@@ -1087,6 +1190,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../../v4-to-v5/addons/" class="md-nav__link">
         
@@ -1104,6 +1208,7 @@
             
               
                 
+  
   
   
   
@@ -1131,6 +1236,7 @@
     
       
       
+  
   
   
   
@@ -1176,21 +1282,27 @@
       
         <li class="md-nav__item">
   <a href="#deploy" class="md-nav__link">
-    Deploy
+    <span class="md-ellipsis">
+      Deploy
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#validate" class="md-nav__link">
-    Validate
+    <span class="md-ellipsis">
+      Validate
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#destroy" class="md-nav__link">
-    Destroy
+    <span class="md-ellipsis">
+      Destroy
+    </span>
   </a>
   
 </li>
@@ -1213,112 +1325,104 @@
   
 
 
-<!-- BEGIN INCLUDE ../../patterns/elastic-fabric-adapter/README.md -->
-<h1 id="eks-cluster-w-elastic-fabric-adapter">EKS Cluster w/ Elastic Fabric Adapter<a class="headerlink" href="#eks-cluster-w-elastic-fabric-adapter" title="Permanent link">&para;</a></h1>
-<p>This pattern demonstrates an Amazon EKS Cluster with an EFA-enabled nodegroup.</p>
+<!-- BEGIN INCLUDE ../../patterns/ecr-pull-through-cache/README.md -->
+<h1 id="ecr-pull-through-cache">ECR Pull Through Cache<a class="headerlink" href="#ecr-pull-through-cache" title="Permanent link">&para;</a></h1>
+<p>This pattern demonstrates how to set up ECR cache pull-through for public images. The Terraform code creates four cache pull-through rules for public image repositories: Docker, Kubernetes, Quay, and ECR. It also configures basic scanning on push for all repositories and includes a creation template. Additionally, it configures the EC2 node role with permissions to pull through images. The setup then installs ALB Controller, Metrics Server, Gatekeeper, ArgoCD, and Prometheus Operator, with their respective Helm charts configured in the values files to pull images through the pull-through cache.</p>
 <h2 id="deploy">Deploy<a class="headerlink" href="#deploy" title="Permanent link">&para;</a></h2>
-<p>See <a href="https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#prerequisites">here</a> for the prerequisites and steps to deploy this pattern.</p>
+<p>Follow the instructions <a href="https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#prerequisites">here</a> for the prerequisites and steps to deploy this pattern.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>terraform init
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>terraform apply -var=&#39;docker_secret={&quot;username&quot;:&quot;your-docker-username&quot;, &quot;accessToken&quot;:&quot;your-docker-password&quot;}&#39;
+</span></code></pre></div>
 <h2 id="validate">Validate<a class="headerlink" href="#validate" title="Permanent link">&para;</a></h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The following steps are shown with <code>g5.8xlarge</code> for frugality. Values shown below will change based on the instance type selected (i.e. - <code>p5.48xlarge</code> has 8 GPUs and 32 EFA interfaces)</p>
-</div>
-<ol>
-<li>
-<p>List the nodes by instance type:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>instance-type<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>node<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>f:
+<p>Validate the pull trough cache rules connectivity:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>for i in docker-hub ecr k8s quay ; do aws ecr validate-pull-through-cache-rule --ecr-repository-prefix $i --region us-east-1; done
 </span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>node.kubernetes.io/instance-type: g5.8xlarge
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>node.kubernetes.io/instance-type: m5.large
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>node.kubernetes.io/instance-type: m5.large
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>node.kubernetes.io/instance-type: g5.8xlarge
+Expected output:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>{
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    &quot;ecrRepositoryPrefix&quot;: &quot;docker-hub&quot;,
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    &quot;registryId&quot;: &quot;111122223333&quot;,
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    &quot;upstreamRegistryUrl&quot;: &quot;registry-1.docker.io&quot;,
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    &quot;credentialArn&quot;: &quot;arn:aws:secretsmanager:us-east-1:111122223333:secret:ecr-pullthroughcache/docker-111XXX&quot;,
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    &quot;isValid&quot;: true,
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    &quot;failure&quot;: &quot;&quot;
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>}
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>{
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    &quot;ecrRepositoryPrefix&quot;: &quot;ecr&quot;,
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    &quot;registryId&quot;: &quot;111122223333&quot;,
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    &quot;upstreamRegistryUrl&quot;: &quot;public.ecr.aws&quot;,
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    &quot;isValid&quot;: true,
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    &quot;failure&quot;: &quot;&quot;
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>}
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>{
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    &quot;ecrRepositoryPrefix&quot;: &quot;k8s&quot;,
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    &quot;registryId&quot;: &quot;111122223333&quot;,
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>    &quot;upstreamRegistryUrl&quot;: &quot;registry.k8s.io&quot;,
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>    &quot;isValid&quot;: true,
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    &quot;failure&quot;: &quot;&quot;
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>}
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>{
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>    &quot;ecrRepositoryPrefix&quot;: &quot;quay&quot;,
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>    &quot;registryId&quot;: &quot;111122223333&quot;,
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>    &quot;upstreamRegistryUrl&quot;: &quot;quay.io&quot;,
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>    &quot;isValid&quot;: true,
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>    &quot;failure&quot;: &quot;&quot;
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>}
 </span></code></pre></div>
-<p>You should see two EFA-enabled (in this example <code>g5.8xlarge</code>) nodes in the list.</p>
-</li>
-<li>
-<p>Deploy Kubeflow MPI Operator</p>
-<p>Kubeflow MPI Operator is required for running MPIJobs on EKS. We will use an MPIJob to test EFA.
-To deploy the MPI operator execute the following:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/kubeflow/mpi-operator/v0.3.0/deploy/v2beta1/mpi-operator.yaml
+Validate pods are pulling the images and in Running state:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl get pods -A
 </span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>namespace/mpi-operator created
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>customresourcedefinition.apiextensions.k8s.io/mpijobs.kubeflow.org created
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>serviceaccount/mpi-operator created
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>clusterrole.rbac.authorization.k8s.io/kubeflow-mpijobs-admin created
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>clusterrole.rbac.authorization.k8s.io/kubeflow-mpijobs-edit created
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>clusterrole.rbac.authorization.k8s.io/kubeflow-mpijobs-view created
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>clusterrole.rbac.authorization.k8s.io/mpi-operator created
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>clusterrolebinding.rbac.authorization.k8s.io/mpi-operator created
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>deployment.apps/mpi-operator created
-</span></code></pre></div>
-<p>In addition to deploying the operator, please apply a patch to the mpi-operator clusterrole
-to allow the mpi-operator service account access to <code>leases</code> resources in the <code>coordination.k8s.io</code> apiGroup.</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/aws-samples/aws-do-eks/main/Container-Root/eks/deployment/kubeflow/mpi-operator/clusterrole-mpi-operator.yaml
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>clusterrole.rbac.authorization.k8s.io/mpi-operator configured
-</span></code></pre></div>
-</li>
-<li>
-<p>EFA test</p>
-<p>The results should shown that two EFA adapters are available (one for each worker pod)</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/aws-samples/aws-do-eks/main/Container-Root/eks/deployment/efa-device-plugin/test-efa.yaml
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>mpijob.kubeflow.org/efa-info-test created
-</span></code></pre></div>
-<p>Once the test launcher pod enters status <code>Running</code> or <code>Completed</code>, see the test logs using the command below:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>launcher<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span>
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Warning: Permanently added &#39;efa-info-test-worker-1.efa-info-test-worker.default.svc,10.11.13.224&#39; (ECDSA) to the list of known hosts.
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Warning: Permanently added &#39;efa-info-test-worker-0.efa-info-test-worker.default.svc,10.11.4.63&#39; (ECDSA) to the list of known hosts.
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>[1,1]&lt;stdout&gt;:provider: efa
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>[1,1]&lt;stdout&gt;:    fabric: efa
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>[1,1]&lt;stdout&gt;:    domain: rdmap197s0-rdm
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>[1,1]&lt;stdout&gt;:    version: 116.10
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>[1,1]&lt;stdout&gt;:    type: FI_EP_RDM
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>[1,1]&lt;stdout&gt;:    protocol: FI_PROTO_EFA
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>[1,0]&lt;stdout&gt;:provider: efa
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>[1,0]&lt;stdout&gt;:    fabric: efa
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>[1,0]&lt;stdout&gt;:    domain: rdmap197s0-rdm
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>[1,0]&lt;stdout&gt;:    version: 116.10
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>[1,0]&lt;stdout&gt;:    type: FI_EP_RDM
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>[1,0]&lt;stdout&gt;:    protocol: FI_PROTO_EFA
-</span></code></pre></div>
-</li>
-<li>
-<p>EFA NCCL test</p>
-<p>To run the EFA NCCL test please execute the following kubectl command:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/aws-samples/aws-do-eks/main/Container-Root/eks/deployment/efa-device-plugin/test-nccl-efa.yaml
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>mpijob.kubeflow.org/test-nccl-efa created
-</span></code></pre></div>
-<p>Once the launcher pod enters <code>Running</code> or <code>Completed</code> state, execute the following to see the test logs:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>launcher<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span>
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>[1,0]&lt;stdout&gt;:test-nccl-efa-worker-0:21:21 [0] NCCL INFO NET/OFI Selected Provider is efa (found 1 nics)
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>[1,0]&lt;stdout&gt;:test-nccl-efa-worker-0:21:21 [0] NCCL INFO Using network AWS Libfabric
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>[1,0]&lt;stdout&gt;:NCCL version 2.12.7+cuda11.4
-</span></code></pre></div>
-<p>Columns 8 and 12 in the output table show the in-place and out-of-place bus bandwidth calculated for the data size listed in column 1. In this case it is 3.13 and 3.12 GB/s respectively.
-Your actual results may be slightly different. The calculated average bus bandwidth is displayed at the bottom of the log when the test finishes after it reaches the max data size,
-specified in the mpijob manifest. In this result the average bus bandwidth is 1.15 GB/s.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>[1,0]&lt;stdout&gt;:#       size         count      type   redop    root     time   algbw   busbw #wrong     time   algbw   busbw #wrong
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>[1,0]&lt;stdout&gt;:#        (B)    (elements)                               (us)  (GB/s)  (GB/s)            (us)  (GB/s)  (GB/s)
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>...
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>[1,0]&lt;stdout&gt;:      262144         65536     float     sum      -1    195.0    1.34    1.34      0    194.0    1.35    1.35      0
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>[1,0]&lt;stdout&gt;:      524288        131072     float     sum      -1    296.9    1.77    1.77      0    291.1    1.80    1.80      0
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>[1,0]&lt;stdout&gt;:     1048576        262144     float     sum      -1    583.4    1.80    1.80      0    579.6    1.81    1.81      0
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>[1,0]&lt;stdout&gt;:     2097152        524288     float     sum      -1    983.3    2.13    2.13      0    973.9    2.15    2.15      0
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>[1,0]&lt;stdout&gt;:     4194304       1048576     float     sum      -1   1745.4    2.40    2.40      0   1673.2    2.51    2.51      0
-</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>...
-</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>[1,0]&lt;stdout&gt;:# Avg bus bandwidth    : 1.15327
-</span></code></pre></div>
-</li>
-</ol>
+Expected output:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>NAMESPACE               NAME                                                        READY   STATUS      RESTARTS   AGE
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>argocd                  argo-cd-argocd-application-controller-0                     1/1     Running     0          2m26s
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>argocd                  argo-cd-argocd-applicationset-controller-78ccd75cfb-7zfs5   1/1     Running     0          2m28s
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>argocd                  argo-cd-argocd-notifications-controller-8cc5c5578-r7g8s     1/1     Running     0          2m27s
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>argocd                  argo-cd-argocd-redis-secret-init-x55l4                      0/1     Completed   0          2m43s
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>argocd                  argo-cd-argocd-repo-server-5d64dff78d-wg7xm                 1/1     Running     0          2m27s
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>argocd                  argo-cd-argocd-server-7b7974dfbf-dl7z6                      1/1     Running     0          2m27s
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>argocd                  argo-cd-redis-ha-haproxy-78456c586d-4jxxh                   1/1     Running     0          2m28s
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>argocd                  argo-cd-redis-ha-haproxy-78456c586d-cp7sw                   1/1     Running     0          2m28s
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>argocd                  argo-cd-redis-ha-haproxy-78456c586d-hpfrl                   1/1     Running     0          2m28s
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>argocd                  argo-cd-redis-ha-server-0                                   3/3     Running     0          2m26s
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>argocd                  argo-cd-redis-ha-server-1                                   3/3     Running     0          71s
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>argocd                  argo-cd-redis-ha-server-2                                   1/3     Running     0          11s
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>gatekeeper-system       gatekeeper-audit-85cc8756cf-zx5xn                           1/1     Running     0          53s
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>gatekeeper-system       gatekeeper-controller-manager-568c7544d-6s5hw               1/1     Running     0          53s
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>gatekeeper-system       gatekeeper-controller-manager-568c7544d-gtq88               1/1     Running     0          53s
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>gatekeeper-system       gatekeeper-controller-manager-568c7544d-nz5g4               1/1     Running     0          53s
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>kube-prometheus-stack   alertmanager-kube-prometheus-stack-alertmanager-0           2/2     Running     0          9m33s
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>kube-prometheus-stack   kube-prometheus-stack-grafana-76f988cb8c-dbsc5              3/3     Running     0          9m38s
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>kube-prometheus-stack   kube-prometheus-stack-kube-state-metrics-57c4f8df9c-td9tp   1/1     Running     0          9m38s
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>kube-prometheus-stack   kube-prometheus-stack-operator-77695dc8-z4qm2               1/1     Running     0          9m38s
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>kube-prometheus-stack   kube-prometheus-stack-prometheus-node-exporter-dp9nl        1/1     Running     0          9m38s
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>kube-prometheus-stack   kube-prometheus-stack-prometheus-node-exporter-gsp24        1/1     Running     0          9m38s
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>kube-prometheus-stack   kube-prometheus-stack-prometheus-node-exporter-vgl4r        1/1     Running     0          9m38s
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>kube-prometheus-stack   prometheus-kube-prometheus-stack-prometheus-0               2/2     Running     0          9m33s
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>kube-system             aws-load-balancer-controller-7cb475c856-7rgwm               1/1     Running     0          10m
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>kube-system             aws-load-balancer-controller-7cb475c856-qh2v6               1/1     Running     0          10m
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>kube-system             aws-node-4v2c5                                              2/2     Running     0          12m
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>kube-system             aws-node-lgcsc                                              2/2     Running     0          12m
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>kube-system             aws-node-lprv6                                              2/2     Running     0          12m
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>kube-system             coredns-86d5d9b668-gw2c7                                    1/1     Running     0          11m
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>kube-system             coredns-86d5d9b668-qtfxm                                    1/1     Running     0          11m
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>kube-system             ebs-csi-controller-57547c649b-bm4lv                         6/6     Running     0          11m
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>kube-system             ebs-csi-controller-57547c649b-q68b6                         6/6     Running     0          11m
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>kube-system             ebs-csi-node-7shn9                                          3/3     Running     0          11m
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>kube-system             ebs-csi-node-f25zz                                          3/3     Running     0          11m
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>kube-system             ebs-csi-node-rdq6v                                          3/3     Running     0          11m
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>kube-system             kube-proxy-7mzgr                                            1/1     Running     0          12m
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>kube-system             kube-proxy-ksz6w                                            1/1     Running     0          12m
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>kube-system             kube-proxy-w6x2s                                            1/1     Running     0          12m
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>kube-system             metrics-server-5d6489d58d-pbrxv                             1/1     Running     0          10m
+</span></code></pre></div></p>
 <h2 id="destroy">Destroy<a class="headerlink" href="#destroy" title="Permanent link">&para;</a></h2>
+<p>ECR repositories are automatically created via pull through cache and can be deleted using the following command.
+NOTE: This commands deletes all the ecr repositories in a region.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>for REPO in $(aws ecr describe-repositories --query &#39;repositories[].repositoryName&#39; --output text); do aws ecr delete-repository --repository-name $REPO --force ; done
+</span></code></pre></div></p>
 <!-- BEGIN INCLUDE ../../docs/_partials/destroy.md -->
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks_blueprints_addons&quot;</span><span class="w"> </span>-auto-approve
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks&quot;</span><span class="w"> </span>-auto-approve
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-auto-approve
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks_blueprints_addons&quot;</span><span class="w"> </span>-auto-approve
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks&quot;</span><span class="w"> </span>-auto-approve
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-auto-approve
 </span></code></pre></div>
 <p>See <a href="https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#destroy">here</a> for more details on cleaning up the resources created.</p>
 <!-- END INCLUDE -->
@@ -1329,11 +1433,22 @@ specified in the mpijob manifest. In this result the average bus bandwidth is 1.
 
 
 
+
+
+  
+  
+
+
+
+
+
+
                 
               </article>
             </div>
           
           
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
       </main>
@@ -1365,10 +1480,11 @@ specified in the mpijob manifest. In this result the average bus bandwidth is 1.
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      <script src="../../assets/javascripts/bundle.a7c05c9e.min.js"></script>
       
     
   </body>
